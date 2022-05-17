@@ -1,0 +1,52 @@
+version: "3"
+services:
+  sample-db-dev:
+    image: postgres:11
+    container_name: sample-db-dev
+    restart: always
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=123456
+      - POSTGRES_DB=samples-db
+    ports:
+      - 5432:5432
+    networks:
+      - pg
+  user-db-dev:
+    image: postgres:11
+    container_name: user-db-dev
+    restart: always
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=123456
+      - POSTGRES_DB=user-db
+    ports:
+      - 5433:5432
+    networks:
+      - pg
+  # grid-db-dev:
+  #   image: postgres:11
+  #   container_name: grid-db-dev
+  #   restart: always
+  #   environment:
+  #     - POSTGRES_USER=admin
+  #     - POSTGRES_PASSWORD=123456
+  #     - POSTGRES_DB=grid-db
+  #   ports:
+  #     - 5434:5432
+  #   networks:
+  #     - pg
+  sample-api:
+    build: "./back/"
+    container_name: sample-api
+    restart: always
+    depends_on:
+      - sample-db-dev
+    environment:
+      STARTUP_DELAY: 10
+    ports:
+      - 80:80
+    networks:
+      - pg
+networks:
+  pg:
