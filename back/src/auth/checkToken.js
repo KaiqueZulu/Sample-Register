@@ -1,20 +1,18 @@
 import jwt from 'jsonwebtoken';
 import { promisify } from 'util';
 
-import authException from './authException.js';
-
-import * as secrets from '../constants/secrets.js';
-import * as httpStatus from '../constants/httpStatus.js';
-
-const emptySpace = ' ';
+import HandleError from '../error/model/HandleError.js';
+import * as secrets from '../config/constants/secrets.js';
+import * as httpStatus from '../config/constants/httpStatus.js';
 
 export default async (req, res, next) => {
   try {
+    let emptySpace = ' ';
     let {
       authorization
     } = req.headers;
     if (!authorization) {
-      throw new authException(httpStatus.UNAUTHORIZED, 'Access token was not informed.');
+      throw new HandleError(httpStatus.UNAUTHORIZED, 'Access token was not informed.');
     }
     let accessToken = authorization;
     if (accessToken.includes(emptySpace)) {

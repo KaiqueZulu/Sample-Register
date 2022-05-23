@@ -1,16 +1,15 @@
 import express from 'express';
-import * as process from '../config/env/dotEnv.js';
 import swaggerUi from 'swagger-ui-express';
 import cors from 'cors';
 import {
   readFile
 } from 'fs/promises';
 
-import * as db from '../config/db/initialData.js';
+import * as db from './config/db/initialData.js';
 
 import Routes from './routers/router.js';
-import SampleTask from './sample/service/SampleTask.js';
-const swaggerDocs = JSON.parse(await readFile('./config/swagger/swagger.json', 'utf8'));
+import SampleTask from './modules/sample/service/SampleTask.js';
+const swaggerDocs = JSON.parse(await readFile('./src/config/swagger/swagger.json', 'utf8'));
 
 const app = express();
 SampleTask.start();
@@ -33,6 +32,6 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 app.use('/v1', Routes);
 
 
-app.listen(process.default.parsed.API_PORT, () => {
-  console.log(`Server is running on port ${process.default.parsed.API_PORT}`);
+app.listen(process.env.API_PORT, () => {
+  console.log(`Server is running on port ${process.env.API_PORT}`);
 });

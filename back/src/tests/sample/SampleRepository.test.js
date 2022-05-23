@@ -1,7 +1,7 @@
 import {
   addMinutes
 } from 'date-fns';
-import SampleRepository from '../../sample/repository/SampleRepository.js';
+import SampleRepository from '../../modules/sample/repository/SampleRepository.js';
 import assert from 'assert';
 
 const MOCK_SAMPLE_URINE = {

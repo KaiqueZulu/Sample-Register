@@ -1,7 +1,7 @@
 import {
   addMinutes
 } from 'date-fns';
-import Sample from '../sample/model/Sample.js';
+import Sample from '../../modules/sample/model/Sample.js';
 
 export async function createData() {
   try {

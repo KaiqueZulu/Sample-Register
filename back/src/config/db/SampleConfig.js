@@ -1,8 +1,8 @@
 import Sequelize from 'sequelize';
-import * as process from '../env/dotEnv.js';
+import {env} from 'process';
 
-const sequelize = new Sequelize('samples-db', process.default.parsed.POSTGRES_USER, process.default.parsed.POSTGRES_PASSWORD, {
-  host: process.default.parsed.POSTGRES_HOST_SAMPLE,
+const sequelize = new Sequelize('samples-db', env.POSTGRES_USER, env.POSTGRES_PASSWORD, {
+  host: env.POSTGRES_HOST_SAMPLE,
   dialect: 'postgres',
   logging: false,
   quoteIdentifiers: false,

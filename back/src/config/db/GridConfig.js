@@ -1,10 +1,10 @@
 import Sequelize from 'sequelize';
-import * as process from '../env/dotEnv.js';
 
 
-const sequelize = new Sequelize('grid-db', process.default.parsed.POSTGRES_USER, process.default.parsed.POSTGRES_PASSWORD, {
-  host:process.default.parsed.POSTGRES_HOST_GRID,
-  port:process.default.parsed.POSTGRES_GRID_PORT,
+
+const sequelize = new Sequelize('grid-db', process.env.POSTGRES_USER, process.env.POSTGRES_PASSWORD, {
+  host:process.env.POSTGRES_HOST_GRID,
+  port:process.env.POSTGRES_GRID_PORT,
   dialect: 'postgres',
   logging: false,
   quoteIdentifiers: false,
