@@ -2,9 +2,10 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
 import UserRepository from '../repository/UserRepository.js';
-import UserException from '../exception/UserException.js';
 import * as httpStatus from '../../../config/constants/httpStatus.js';
+import HandleError from '../../../error/model/HandleError.js';
 import * as secrets from '../../../config/constants/secrets.js';
+import ResponseError from '../../../error/model/ResponseError.js';
 
 class UserService {
   // async findByEmail(req) {
@@ -37,19 +38,19 @@ class UserService {
 
   validateRequestData(email) {
     if (!email) {
-      throw new UserException(httpStatus.BAD_REQUEST, 'User email was not informed. ');
+      throw new HandleError(httpStatus.BAD_REQUEST, 'User email was not informed. ');
     }
   }
 
   validateUserNotFound(user) {
     if (!user) {
-      throw new UserException(httpStatus.UNAUTHORIZED, 'Invalid email or password');
+      throw new HandleError(httpStatus.UNAUTHORIZED, 'Invalid email or password');
     }
   }
 
   validateAuthenticatedUser(user, authUser) {
     if (!authUser || user.id !== authUser.id) {
-      throw new UserException(httpStatus.FORBIDDEN, 'You cannot see this user data.');
+      throw new HandleError(httpStatus.FORBIDDEN, 'You cannot see this user data.');
     }
     return true;
   }
@@ -80,24 +81,20 @@ class UserService {
         status: httpStatus.SUCCESS,
         accessToken,
       };
-    } catch (err) {
-      const status = err.status ? err.status : httpStatus.INTERNAL_SERVER_ERROR;
-      return {
-        status,
-        message: err.message
-      };
+    } catch (error) {
+      return new ResponseError(error);
     }
   }
 
   validateAccessTokenData(email, password) {
     if (!email || !password) {
-      throw new UserException(httpStatus.UNAUTHORIZED, 'Email and password must be informed');
+      throw new HandleError(httpStatus.UNAUTHORIZED, 'Email and password must be informed');
     }
   }
 
   async validatePassword(password, hashPassword) {
     if (!await bcrypt.compare(password, hashPassword)) {
-      throw new UserException(httpStatus.UNAUTHORIZED, 'Invalid email or password');
+      throw new HandleError(httpStatus.UNAUTHORIZED, 'Invalid email or password');
     }
   }
 }

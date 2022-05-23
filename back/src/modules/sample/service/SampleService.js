@@ -1,9 +1,10 @@
 import SampleRepository from '../repository/SampleRepository.js';
-import SampleException from '../exception/SampleException.js';
+import HandleError from '../../../error/model/HandleError.js';
 import * as httpStatus from '../../../config/constants/httpStatus.js';
 import {
   addMinutes
 } from 'date-fns';
+import ResponseError from '../../../error/model/ResponseError.js';
 
 class SampleService {
 
@@ -17,18 +18,15 @@ class SampleService {
       const deadline = addMinutes(new Date(), shelfLife);
       const result = await SampleRepository.create(type, code, deadline);
       if (!result) {
-        throw new SampleException(httpStatus.NOT_ACCEPTABLE, 'Sample not registered!');
+        throw new HandleError(httpStatus.NOT_ACCEPTABLE, 'Sample not registered!');
       }
       const response = {
         status: httpStatus.CREATED,
         sample: result.dataValues,
       };
       return response;
-    } catch (err) {
-      return {
-        status: err.status ? err.status : httpStatus.INTERNAL_SERVER_ERROR,
-        message: err.message,
-      };
+    } catch (error) {
+      return new ResponseError(error);
     }
   }
   async findSamplesAll() {
@@ -39,11 +37,8 @@ class SampleService {
         samples: sample,
         consolidated: sample.length
       };
-    } catch (err) {
-      return {
-        status: err.status ? err.status : httpStatus.INTERNAL_SERVER_ERROR,
-        message: err.message,
-      };
+    } catch (error) {
+      return new ResponseError(error);
     }
   }
   async findByCode(req) {
@@ -55,17 +50,15 @@ class SampleService {
         code
       });
       if (sample === null) {
-        throw new SampleException(httpStatus.NOT_FOUND, 'Sample not found. ');
+        throw new HandleError(httpStatus.NOT_FOUND, 'Sample not found. ');
       }
       return {
         status: httpStatus.SUCCESS,
         sample: sample.dataValues
       };
-    } catch (err) {
-      return {
-        status: err.status ? err.status : httpStatus.INTERNAL_SERVER_ERROR,
-        message: err.message,
-      };
+    } catch (error) {
+      return new ResponseError(error);
+
     }
   }
 
@@ -84,14 +77,11 @@ class SampleService {
           consolidated: sample.length
         };
       } else {
-        throw new SampleException(httpStatus.BAD_REQUEST, 'The sample type is incorrect or not informed.');
+        throw new HandleError(httpStatus.BAD_REQUEST, 'The sample type is incorrect or not informed.');
       }
 
-    } catch (err) {
-      return {
-        status: err.status ? err.status : httpStatus.INTERNAL_SERVER_ERROR,
-        message: err.message,
-      };
+    } catch (error) {
+      return new ResponseError(error);
     }
   }
 
@@ -103,17 +93,14 @@ class SampleService {
       const result = await SampleRepository.delete({
         code
       });
-      if (result == 0) throw new SampleException(httpStatus.NOT_ACCEPTABLE, 'Sample not deleted or no longer exists!');
+      if (result == 0) throw new HandleError(httpStatus.NOT_ACCEPTABLE, 'Sample not deleted or no longer exists!');
       const test = {
         status: httpStatus.SUCCESS,
         deleted: `${result} data has been removed!`
       };
       return test;
-    } catch (err) {
-      return {
-        status: err.status ? err.status : httpStatus.INTERNAL_SERVER_ERROR,
-        message: err.message,
-      };
+    } catch (error) {
+      return new ResponseError(error);
     }
   }
 }
