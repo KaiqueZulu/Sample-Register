@@ -1,6 +1,6 @@
 import Sequelize from 'sequelize';
 
-import sequelize from '../../../config/db/UserConfig.js';
+import sequelize from '../../../config/db/SampleRegisterConfig.js';
 
 const User = sequelize.define('user', {
   id: {

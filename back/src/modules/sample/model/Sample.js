@@ -1,5 +1,5 @@
 import Sequelize from 'sequelize';
-import sequelize from '../../../config/db/SampleConfig.js';
+import sequelize from '../../../config/db/SampleRegisterConfig.js';
 
 const Sample = sequelize.define('sample', {
   id: {

@@ -1,8 +1,8 @@
 import Sequelize from 'sequelize';
 import {env} from 'process';
 
-const sequelize = new Sequelize('samples-db', env.POSTGRES_USER, env.POSTGRES_PASSWORD, {
-  host: env.POSTGRES_HOST_SAMPLE,
+const sequelize = new Sequelize('samples-register', env.POSTGRES_USER, env.POSTGRES_PASSWORD, {
+  host: env.POSTGRES_HOST,
   dialect: 'postgres',
   logging: false,
   quoteIdentifiers: false,
