@@ -20,7 +20,9 @@ const User = sequelize.define('user', {
     type: Sequelize.STRING,
     allowNull: false,
   },
-}, {});
+}, {
+  timestamps:true,
+});
 
 await User.sync();
 

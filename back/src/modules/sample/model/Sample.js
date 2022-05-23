@@ -7,10 +7,6 @@ const Sample = sequelize.define('sample', {
     primaryKey: true,
     autoIncrement: true,
   },
-  date: {
-    type: Sequelize.DATE,
-    defaultValue: Sequelize.NOW
-  },
   type: {
     type: Sequelize.STRING,
   },
@@ -25,7 +21,9 @@ const Sample = sequelize.define('sample', {
     type: Sequelize.BOOLEAN,
     defaultValue: true
   }
-}, {});
+}, {
+  timestamps:true,
+});
 
 await Sample.sync();
 
