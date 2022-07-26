@@ -1,4 +1,4 @@
-import SampleService from '../../sample/service/SampleService.js';
+import SampleService from '../../modules/sample/service/SampleService.js';
 import assert from 'assert';
 
 const MOCK_REQUEST_SAMPLE_WITH_CODE_AND_TYPE = {
