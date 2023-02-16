@@ -61,7 +61,9 @@ export const getServerSideProps = async ({ req }) => {
     console.log(error);
     return {
       props: {
-        data: [],
+        data: {
+          samples: [],
+        },
       },
     };
   }
