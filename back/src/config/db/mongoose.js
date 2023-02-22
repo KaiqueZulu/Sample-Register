@@ -1,5 +1,7 @@
 import mongoose, { Types } from 'mongoose';
 
+let ObjectId = Types.ObjectId;
+
 mongoose
   .connect('mongodb://root:example@localhost:27017/')
   .then(() => console.log('connected'));
@@ -10,7 +12,7 @@ const gridModel = mongoose.model('Grid', {
 });
 
 const bookcaseModel = mongoose.model('Bookcase', {
-  grid: { type: Types.ObjectId, ref: 'Grid' },
+  grid: [{ type: Types.ObjectId, ref: 'Grid' }],
 });
 
 const grid = new gridModel({
@@ -18,22 +20,28 @@ const grid = new gridModel({
   line2: 1,
 });
 
-//grid.save((error, grid) => {
-//  if (error) console.log(error);
-//
-//  const bookcase = new bookcaseModel();
-//
-//  bookcase.grid = grid._id;
-//
-//  bookcase.save(function (err) {
-//    console.log(err);
-//  });
-//});
+grid.save(async (error, grid) => {
+  if (error) console.log(error);
 
-bookcaseModel
-  .find()
-  .populate('grid')
-  .exec((error, bookcaseModel) => {
-    if (error) console.error(error);
-    console.log(bookcaseModel);
-  });
+  //const bookcase = new bookcaseModel();
+
+  //bookcase.grid = grid._id;
+
+  bookcaseModel.updateOne(
+    { _id: new ObjectId('63f64a1a4e0f462c2546f273') },
+    { $push: { grid: [grid._id] } },
+    (error, res) => {
+      if (error) console.log(error);
+
+      console.log(res);
+    }
+  );
+});
+
+//bookcaseModel
+//  .find()
+//  .populate('grid')
+//  .exec((error, bookcaseModel) => {
+//    if (error) console.error(error);
+//    console.log(bookcaseModel);
+//  });
