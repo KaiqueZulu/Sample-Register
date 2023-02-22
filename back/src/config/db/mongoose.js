@@ -23,12 +23,16 @@ const grid = new gridModel({
 grid.save(async (error, grid) => {
   if (error) console.log(error);
 
-  //const bookcase = new bookcaseModel();
+  const bookcase = new bookcaseModel();
 
   //bookcase.grid = grid._id;
 
+  //bookcase.save((error) => {
+  //  console.log(error);
+  //});
+
   bookcaseModel.updateOne(
-    { _id: new ObjectId('63f64a1a4e0f462c2546f273') },
+    { _id: new ObjectId('63f697d541ca7c5faa307204') },
     { $push: { grid: [grid._id] } },
     (error, res) => {
       if (error) console.log(error);
@@ -38,10 +42,10 @@ grid.save(async (error, grid) => {
   );
 });
 
-//bookcaseModel
-//  .find()
-//  .populate('grid')
-//  .exec((error, bookcaseModel) => {
-//    if (error) console.error(error);
-//    console.log(bookcaseModel);
-//  });
+bookcaseModel
+  .find()
+  .populate('grid')
+  .exec((error, bookcaseModel) => {
+    if (error) console.error(error);
+    console.log(bookcaseModel);
+  });
