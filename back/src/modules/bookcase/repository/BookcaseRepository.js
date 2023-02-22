@@ -1,12 +1,12 @@
-import Grid from '../model/Grid.js';
+import Bookcase from '../model/Bookcase.js';
 
-class GridRepository {
+class BookcaseRepository {
   async create() {
     try {
       for (let interactor = 1; interactor <= 12; interactor++) {
-        await Grid.create({ id: interactor });
+        await Bookcase.create({ id: interactor });
       }
-      return await Grid.findAll();
+      return await Bookcase.findAll();
     } catch (error) {
       console.log(error);
     }
@@ -14,7 +14,7 @@ class GridRepository {
 
   async findSample(line, column) {
     try {
-      return await Grid.findOne({
+      return await Bookcase.findOne({
         where: { id: column },
         attributes: [`line${line}`],
       });
@@ -24,11 +24,11 @@ class GridRepository {
   }
   async findGrid() {
     try {
-      return await Grid.findAll();
+      return await Bookcase.findAll();
     } catch (error) {
       console.log(error);
     }
   }
 }
 
-export default new GridRepository();
+export default new BookcaseRepository();
