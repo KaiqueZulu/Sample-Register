@@ -1,34 +1,21 @@
-import Bookcase from '../model/Bookcase.js';
+import BookcaseModel from '../model/Bookcase.js';
 
 class BookcaseRepository {
   async create() {
-    try {
-      for (let interactor = 1; interactor <= 12; interactor++) {
-        await Bookcase.create({ id: interactor });
-      }
-      return await Bookcase.findAll();
-    } catch (error) {
-      console.log(error);
-    }
+    const bookcase = new BookcaseModel({_id: 1})
+    const data = await  bookcase.save()
+    console.log(data)
   }
 
-  async findSample(line, column) {
-    try {
-      return await Bookcase.findOne({
-        where: { id: column },
-        attributes: [`line${line}`],
-      });
-    } catch (error) {
-      console.log(error);
-    }
+  findSample(line, column) {
+
   }
-  async findGrid() {
-    try {
-      return await Bookcase.findAll();
-    } catch (error) {
-      console.log(error);
-    }
+  findGrid() {
+
   }
 }
+
+const test = new BookcaseRepository();
+test.create()
 
 export default new BookcaseRepository();
