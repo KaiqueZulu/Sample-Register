@@ -1,26 +1,54 @@
-import gridModel from "../model/Grid.js";
+import GridModel from "../model/Grid.js";
 
 class GridRepository {
-  async create(_id) {
-    const grid = new gridModel({
-      _id,
-    });
 
-   try {
-    return await grid.save();
-   } catch (error) {
-    console.log(error);
-   }
+  create(_id) {
+    try {
+      const grid = new GridModel({
+        _id,
+      });
+
+      return grid.save();
+    } catch (error) {
+      console.log(error);
+    }
   }
 
-  findAll() {
-    gridModel.find((error, data) => {
-      if (error) console.log(error);
-      console.log(data);
-      return data;
-    })
+  update(_id, line) {
+    return GridModel.updateOne({
+      _id
+    }, line)
   }
+
+  findAllGrids() {
+    try {
+      return GridModel.find();
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  findOneGrid(_id) {
+    try {
+      return GridModel.findById(_id);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  delete(_id) {
+    try {
+      return GridModel.deleteOne({ _id });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
 }
-//const Grid = new GridRepository()
-//Grid.findAll()
+
+let line = {
+  line2: 7
+}
+const Grid = new GridRepository()
+console.log(await Grid.delete(1))
 export default new GridRepository();

@@ -1,8 +1,8 @@
 import GridRepository from '../repository/GridRepository.js';
 
 class GridService {
-    async create() {
-         let data = await GridRepository.create(3)
+    async create(_id) {
+         let data = await GridRepository.create(_id)
          console.log('dados:', data)
         //const bookcase = new bookcaseModel();
 
@@ -24,7 +24,7 @@ class GridService {
         //  );
     }
 }
-//const service = new GridService()
-//service.create()
+const service = new GridService()
+service.create(4)
 
 export default new GridService()

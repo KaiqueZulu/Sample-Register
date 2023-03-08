@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import "../../../config/db/mongoose.js";
 
-const gridModel = mongoose.model('Grid', {
+const GridModel = mongoose.model('Grid', {
   _id: Number,
   line1: {type: Number, default: 0},
   line2: {type: Number, default: 0},
@@ -20,4 +20,4 @@ const gridModel = mongoose.model('Grid', {
 //})
 
 
-export default gridModel;
+export default GridModel;
